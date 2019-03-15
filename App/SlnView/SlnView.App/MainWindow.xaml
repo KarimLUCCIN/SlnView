@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:dd="urn:gong-wpf-dragdrop"
         xmlns:sln="clr-namespace:SlnView.App.ViewModel.SlnItems"
         xmlns:local="clr-namespace:SlnView.App"
         mc:Ignorable="d"
@@ -24,7 +25,10 @@
             </MenuItem>
         </Menu>
 
-        <TreeView Grid.Row="1" ItemsSource="{Binding Source={StaticResource Locator}, Path=Main.CurrentSolutionRoots}">
+        <TreeView Grid.Row="1" ItemsSource="{Binding Source={StaticResource Locator}, Path=Main.CurrentSolutionRoots}"
+                    dd:DragDrop.IsDragSource="True"
+                    dd:DragDrop.IsDropTarget="True"
+                    dd:DragDrop.DropHandler="{Binding Source={StaticResource Locator}, Path=Main}">
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type sln:SlnRoot}" ItemsSource="{Binding Items}">
                     <StackPanel Orientation="Horizontal">

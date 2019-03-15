@@ -53,6 +53,9 @@
     <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.4.1.0, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
     </Reference>
+    <Reference Include="GongSolutions.Wpf.DragDrop, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\gong-wpf-dragdrop.1.1.0\lib\net46\GongSolutions.Wpf.DragDrop.dll</HintPath>
+    </Reference>
     <Reference Include="MvsSln, Version=2.1.0.10031, Culture=neutral, PublicKeyToken=87f0bd8fb7f0a2c4, processorArchitecture=MSIL">
       <HintPath>..\packages\MvsSln.2.1.0\lib\net40\MvsSln.dll</HintPath>
     </Reference>

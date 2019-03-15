@@ -1,6 +1,7 @@
 using CWDev.SLNTools.Core;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GongSolutions.Wpf.DragDrop;
 using Microsoft.Win32;
 using SlnView.App.ViewModel.SlnItems;
 using System;
@@ -24,7 +25,7 @@ namespace SlnView.App.ViewModel
     /// See http://www.galasoft.ch/mvvm
     /// </para>
     /// </summary>
-    public class MainViewModel : ViewModelBase, INotifyPropertyChanged
+    public class MainViewModel : ViewModelBase, INotifyPropertyChanged, IDropTarget
     {
         public SolutionFile CurrentSolution { get; private set; }
         public IEnumerable<SlnRoot> CurrentSolutionRoots => SlnRoot.FromSolution(CurrentSolution);
@@ -75,6 +76,17 @@ namespace SlnView.App.ViewModel
 
                 //sln.SaveAs(dlg.FileName + "2.sln");
             }
+        }
+
+        public void DragOver(IDropInfo dropInfo)
+        {
+            dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
+            dropInfo.Effects = DragDropEffects.Copy;
+        }
+
+        public void Drop(IDropInfo dropInfo)
+        {
+
         }
     }
 }
