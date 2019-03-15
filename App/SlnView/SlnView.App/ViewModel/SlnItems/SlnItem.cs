@@ -7,29 +7,50 @@ using System.Linq;
 
 namespace SlnView.App.ViewModel.SlnItems
 {
-    public class SlnItem : ViewModelBase, INotifyPropertyChanged
+    public class SlnItem : ViewModelBase, INotifyPropertyChanged, ISlnElement
     {
-        private readonly Project item;
+        public Project Item { get; private set; }
 
-        public string Title => item.ProjectName;
-        public string Type => item.ProjectTypeGuid;
+        public string FullPath => Item.FullPath;
+
+        public string Title => Item.ProjectName;
+        public string Type => Item.ProjectTypeGuid;
 
         public IEnumerable<SlnItem> Items
         {
             get
             {
                 return
-                    from item in item.Childs
-                    select SlnItem.FromItem(item);
+                    from item in Item.Childs
+                    select SlnItem.FromItem(this, item);
             }
         }
 
-        public SlnItem(Project item)
+        public ISlnElement Parent { get; private set; }
+
+        public IEnumerable<ISlnElement> ParentHierarchy
         {
-            this.item = item ?? throw new System.ArgumentNullException(nameof(item));
+            get
+            {
+                if (Parent != null)
+                {
+                    yield return Parent;
+
+                    foreach (var h in Parent.ParentHierarchy)
+                    {
+                        yield return h;
+                    }
+                }
+            }
         }
 
-        public static SlnItem FromItem(Project item)
+        public SlnItem(ISlnElement parent, Project item)
+        {
+            this.Parent = parent;
+            this.Item = item ?? throw new System.ArgumentNullException(nameof(item));
+        }
+
+        public static SlnItem FromItem(ISlnElement parent, Project item)
         {
             if (item == null)
             {
@@ -38,16 +59,21 @@ namespace SlnView.App.ViewModel.SlnItems
 
             if (Guid.Parse(item.ProjectTypeGuid) == SlnFolder.TypeGuid)
             {
-                return new SlnFolder(item);
+                return new SlnFolder(parent, item);
             }
             else if (Guid.Parse(item.ProjectTypeGuid) == CppProject.TypeGuid)
             {
-                return new CppProject(item);
+                return new CppProject(parent, item);
             }
             else
             {
-                return new SlnItem(item);
+                return new SlnItem(parent, item);
             }
+        }
+
+        public void Refresh()
+        {
+            RaisePropertyChanged("");
         }
     }
 }

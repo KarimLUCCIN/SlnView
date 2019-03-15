@@ -7,7 +7,13 @@
         xmlns:sln="clr-namespace:SlnView.App.ViewModel.SlnItems"
         xmlns:local="clr-namespace:SlnView.App"
         mc:Ignorable="d"
-        Title="Sln Tree Editor" Height="450" Width="800">
+        Title="Sln Tree Editor" Height="450" Width="800" Icon="Images/FolderBrowserDialogControl_16x.png">
+    <Window.Resources>
+        <ContextMenu x:Key="ItemContextMenu" DataContext="{Binding Path=DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type StackPanel}}}">
+            <MenuItem Header="Reveal in Explorer" Command="{Binding Source={StaticResource Locator}, Path=Main.CommandRevealInExplorer}"
+                      CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeView}}}"/>
+        </ContextMenu>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -18,41 +24,41 @@
             <MenuItem Header="File" DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
                 <MenuItem Header="Open" Command="{Binding CommandOpen}"/>
                 <Separator/>
-                <MenuItem Header="Save"/>
-                <MenuItem Header="Save As..."/>
+                <MenuItem Header="Save" Command="{Binding CommandSave}"/>
+                <MenuItem Header="Save As..." Command="{Binding CommandSaveAs}"/>
                 <Separator/>
-                <MenuItem Header="Quit"/>
+                <MenuItem Header="Quit" Command="{Binding CommandQuit}"/>
             </MenuItem>
         </Menu>
 
-        <TreeView Grid.Row="1" ItemsSource="{Binding Source={StaticResource Locator}, Path=Main.CurrentSolutionRoots}"
+        <TreeView x:Name="contentTree" Grid.Row="1" ItemsSource="{Binding Source={StaticResource Locator}, Path=Main.CurrentSolutionRoots}"
                     dd:DragDrop.IsDragSource="True"
                     dd:DragDrop.IsDropTarget="True"
                     dd:DragDrop.DropHandler="{Binding Source={StaticResource Locator}, Path=Main}">
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type sln:SlnRoot}" ItemsSource="{Binding Items}">
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" ContextMenu="{DynamicResource ItemContextMenu}">
                         <Image Source="Images/FolderBrowserDialogControl_16x.png"/>
                         <TextBlock Text="{Binding Title}"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType="{x:Type sln:SlnFolder}" ItemsSource="{Binding Items}">
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" ContextMenu="{DynamicResource ItemContextMenu}">
                         <Image Source="Images/FolderBottomPanel_16x.png"/>
                         <TextBlock Text="{Binding Title}"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType="{x:Type sln:CppProject}" ItemsSource="{Binding Items}">
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" ContextMenu="{DynamicResource ItemContextMenu}">
                         <Image Source="Images/CPP_ProjectSENode_16x_.png"/>
                         <TextBlock Text="{Binding Title}"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType="{x:Type sln:SlnItem}" ItemsSource="{Binding Items}">
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" ContextMenu="{DynamicResource ItemContextMenu}">
                         <Image Source="Images/Code_16x.png"/>
                         <TextBlock Text="{Binding Title}"/>
                         <TextBox IsReadOnly="True" Text="{Binding Type, Mode=OneWay}"/>

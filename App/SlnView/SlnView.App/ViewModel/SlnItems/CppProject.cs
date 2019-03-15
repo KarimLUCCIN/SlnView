@@ -12,7 +12,7 @@ namespace SlnView.App.ViewModel.SlnItems
     {
         public static Guid TypeGuid = Guid.Parse("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}");
 
-        public CppProject(Project item) : base(item)
+        public CppProject(ISlnElement parent, Project item) : base(parent, item)
         {
         }
     }

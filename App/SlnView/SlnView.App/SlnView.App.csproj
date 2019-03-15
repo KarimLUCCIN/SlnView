@@ -37,6 +37,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Images\folderbrowserdialogcontrol_16x_vhH_icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.2\lib\net47\CommonServiceLocator.dll</HintPath>
@@ -86,6 +89,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModel\SlnItems\CppProject.cs" />
+    <Compile Include="ViewModel\SlnItems\ISlnElement.cs" />
     <Compile Include="ViewModel\SlnItems\SlnFolder.cs" />
     <Compile Include="ViewModel\SlnItems\SlnItem.cs" />
     <Compile Include="ViewModel\SlnItems\SlnRoot.cs" />
@@ -134,7 +138,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\folderbrowserdialogcontrol_16x_vhH_icon.ico" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Code_16x.png" />
     <Resource Include="Images\CPP_ProjectSENode_16x_.png" />

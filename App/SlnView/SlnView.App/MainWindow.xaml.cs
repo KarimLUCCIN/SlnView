@@ -23,6 +23,27 @@ namespace SlnView.App
         public MainWindow()
         {
             InitializeComponent();
+
+            contentTree.PreviewMouseRightButtonDown += ContentTree_PreviewMouseRightButtonDown;
+        }
+
+        private void ContentTree_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var treeViewItem = VisualUpwardSearch(e.OriginalSource as DependencyObject);
+
+            if (treeViewItem != null)
+            {
+                treeViewItem.Focus();
+                e.Handled = true;
+            }
+        }
+
+        static TreeViewItem VisualUpwardSearch(DependencyObject source)
+        {
+            while (source != null && !(source is TreeViewItem))
+                source = VisualTreeHelper.GetParent(source);
+
+            return source as TreeViewItem;
         }
     }
 }

@@ -8,11 +8,13 @@ using GalaSoft.MvvmLight;
 
 namespace SlnView.App.ViewModel.SlnItems
 {
-    public class SlnRoot : ViewModelBase, INotifyPropertyChanged
+    public class SlnRoot : ViewModelBase, INotifyPropertyChanged, ISlnElement
     {
         private readonly SolutionFile solution;
 
         public string Title => Path.GetFileName(solution.SolutionFullPath);
+
+        public string FullPath => solution.SolutionFullPath;
 
         public SlnRoot(SolutionFile solution)
         {
@@ -25,9 +27,11 @@ namespace SlnView.App.ViewModel.SlnItems
             {
                 return
                     from item in solution.Childs
-                    select SlnItem.FromItem(item);
+                    select SlnItem.FromItem(this, item);
             }
         }
+
+        public IEnumerable<ISlnElement> ParentHierarchy => Enumerable.Empty<ISlnElement>();
 
         public static IEnumerable<SlnRoot> FromSolution(SolutionFile solution)
         {
@@ -39,6 +43,11 @@ namespace SlnView.App.ViewModel.SlnItems
             {
                 yield return new SlnRoot(solution);
             }
+        }
+
+        public void Refresh()
+        {
+            RaisePropertyChanged("");
         }
     }
 }
